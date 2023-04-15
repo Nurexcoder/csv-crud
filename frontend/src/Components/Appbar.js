@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-export default function Appbar({ getData, searchItem }) {
+export default function Appbar({ getData, searchItem, setSearchValue }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -83,7 +83,7 @@ export default function Appbar({ getData, searchItem }) {
                 inputProps={{ "aria-label": "search" }}
                 onChange={(e) => {
                   console.log(e.target.value);
-                  searchItem(e.target.value);
+                  setSearchValue(e.target.value);
                 }}
               />
             </Search>

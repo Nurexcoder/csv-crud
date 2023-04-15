@@ -16,6 +16,7 @@ function App() {
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
   const [filterModel, setFilterModel] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const getData = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -80,7 +81,7 @@ function App() {
       method: "GET",
       redirect: "follow",
     };
-    const newValue = value ? value : "--";
+    const newValue = searchValue ? searchValue : "--";
 
     fetch(
       url + "/csv/search/" + newValue + "/" + paginationModel.page,
@@ -94,12 +95,20 @@ function App() {
       .catch((error) => console.log("error", error));
   };
   useEffect(() => {
-    getData();
-  }, [paginationModel, filterModel]);
+    if (searchValue === "") {
+      getData();
+    } else {
+      searchItem(searchValue);
+    }
+  }, [paginationModel, filterModel, searchValue]);
 
   return (
     <div className="component">
-      <Appbar getData={getData} searchItem={searchItem} />
+      <Appbar
+        getData={getData}
+        searchItem={searchItem}
+        setSearchValue={setSearchValue}
+      />
       <Demo
         rows={rows}
         setRows={setRows}
